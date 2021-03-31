@@ -15,3 +15,5 @@ Opcional:
 
 Avançado:
 - Separar os commits do projeto (Inicial e Componentização);
+
+![Image of exercise](https://github.com/vpinheiro38/cubos-academy-flutter/blob/main/aula03/exercicio_proposto.png)
