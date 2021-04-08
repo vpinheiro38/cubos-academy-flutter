@@ -1,16 +1,15 @@
-# aula06
+# Exercício
+## Flutter | Módulo 01 - Aula 06
+### Exercícios de casa 🏠
+### ====== Modularizar o Contador ======
+Vamos treinar funções e classes melhorando nosso contador. Na aula M01 - A04 - Reconstruindo o App Demo nós tivemos como exercício a adição de um botão e a lógica para reduzir o contador.
 
-A new Flutter project.
+Nosso exercício agora será modularizar esse contador da seguinte forma:
 
-## Getting Started
+Deve ser criado um componente para o FloatActionButton. Lmebre-se que ele vai precisar receber o Icon e a Função onPressed como parâmetro.
 
-This project is a starting point for a Flutter application.
+A função que realiza a operação deve ser a mesma e receber a operação como parametro. Ou seja, não devemos ter uma função de soma e outra de subtração, vamos ter uma única função que vai realizar a operação correta de acordo com um parâmetro.
 
-A few resources to get you started if this is your first Flutter project:
+Quer ir adiante?
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Criar funções para cada operação (add e sub) e passá-la como parâmetro para a função que executa a operação.
