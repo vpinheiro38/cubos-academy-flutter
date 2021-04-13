@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'counter_view.dart';
+import 'number_view.dart';
 
 void main() {
   runApp(MaterialApp(
-    home: CounterApp(),
+    home: NumberApp(),
   ));
 }
