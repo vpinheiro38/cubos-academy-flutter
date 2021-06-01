@@ -4,9 +4,18 @@ import 'package:flutter/material.dart';
 class FormView extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
   final _controller = FormController();
+  final _nameFormController = new TextEditingController();
+  final _surnameFormController = new TextEditingController();
+
+  getPartialNameAndSurname() {
+    _controller.partialName().then((value) => _nameFormController.text = value);
+    _controller.partialSurname.then((value) => _surnameFormController.text = value);
+  }
 
   @override
   Widget build(BuildContext context) {
+    getPartialNameAndSurname();
+
     return SafeArea(
       child: Scaffold(
         body: Container(
@@ -39,6 +48,7 @@ class FormView extends StatelessWidget {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         TextFormField(
+                          controller: _nameFormController,
                           decoration: InputDecoration(hintText: 'Nome'),
                           validator: (text) {
                             if (text == null || text.isEmpty) {
@@ -47,20 +57,22 @@ class FormView extends StatelessWidget {
                             return null;
                           },
                           onChanged: (text) {
-                            _controller.updateName(text);
+                            _controller.updatePartialName(text);
                           },
                         ),
                         TextFormField(
-                            decoration: InputDecoration(hintText: 'Sobrenome'),
-                            validator: (text) {
-                              if (text == null || text.isEmpty) {
-                                return 'Campo Sobrenome é obrigatório!';
-                              }
-                              return null;
-                            },
-                            onChanged: (text) {
-                              _controller.updateSurname(text);
-                            }),
+                          controller: _surnameFormController,
+                          decoration: InputDecoration(hintText: 'Sobrenome'),
+                          validator: (text) {
+                            if (text == null || text.isEmpty) {
+                              return 'Campo Nome é obrigatório!';
+                            }
+                            return null;
+                          },
+                          onChanged: (text) {
+                            _controller.updatePartialSurname(text);
+                          },
+                        ),
                         Container(
                           margin: const EdgeInsets.only(top: 100),
                           child: ElevatedButton(
@@ -81,7 +93,12 @@ class FormView extends StatelessWidget {
                                           actions: [
                                             TextButton(
                                               child: Text('Salvar'),
-                                              onPressed: () {
+                                              onPressed: () async {
+                                                String name = await _controller.partialName();
+                                                String surname = await _controller.partialSurname;
+
+                                                _controller.updateName(name);
+                                                _controller.updateSurname(surname);
                                                 _controller.saveUser();
                                               },
                                             )

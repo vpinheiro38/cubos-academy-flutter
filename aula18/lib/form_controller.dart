@@ -7,6 +7,20 @@ class FormController {
   String get surname => model.surname ?? '';
   Future<String> get fullName => model.getFullName();
 
+  Future<String> partialName() {
+    return model.getPartialName();
+  }
+
+  Future<String> get partialSurname => model.getPartialSurname();
+
+  void updatePartialSurname(String partialSurname) {
+    model.savePartialSurname(partialSurname);
+  }
+
+  void updatePartialName(String partialName) {
+    model.savePartialName(partialName);
+  }
+
   void updateName(String name) {
     model.name = name;
   }

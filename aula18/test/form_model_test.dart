@@ -36,4 +36,26 @@ class MockStorage extends InternalStorage {
     _surname = surname;
   }
 
+  @override
+  Future<String> getPartialName() {
+    // TODO: implement getPartialName
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<String> getPartialSurname() {
+    // TODO: implement getPartialSurname
+    throw UnimplementedError();
+  }
+
+  @override
+  void savePartialName(String name) {
+    // TODO: implement savePartialName
+  }
+
+  @override
+  void savePartialSurname(String surname) {
+    // TODO: implement savePartialSurname
+  }
+
 }
