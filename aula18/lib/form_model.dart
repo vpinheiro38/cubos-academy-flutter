@@ -1,22 +1,27 @@
 import 'package:aula16/internal_storage.dart';
 import 'package:aula16/shared_preferences_adapter.dart';
+import 'package:aula16/sql_adapter.dart';
+import 'package:aula16/user.dart';
 
 class FormModel {
-  String? name;
-  String? surname;
+  User? user;
   final InternalStorage internalStorage;
 
   FormModel({InternalStorage? internalStorageAdapter})
-      : internalStorage = internalStorageAdapter ?? SharedPreferencesAdapter();
+      : internalStorage = internalStorageAdapter ?? SQLAdapter();
 
   void saveUser() {
-    if (name == null) return;
-    if (surname == null) return;
+    if (user?.name == null) return;
+    if (user?.surname == null) return;
 
-    internalStorage.saveUser(name!, surname!);
+    internalStorage.saveUser(user!.name, user!.surname);
   }
 
-  Future<String> getFullName() {
+  void deleteUser(int userID) {
+    internalStorage.deleteUser(userID);
+  }
+
+  Future<String> currentUser() {
     return internalStorage.getFullName();
   }
 }

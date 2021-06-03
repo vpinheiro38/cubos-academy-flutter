@@ -1,4 +1,5 @@
 import 'package:aula16/internal_storage.dart';
+import 'package:aula16/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPreferencesAdapter extends InternalStorage {
@@ -23,5 +24,12 @@ class SharedPreferencesAdapter extends InternalStorage {
     internalPref.setString('name', name);
     internalPref.setString('surname', surname);
     print('Dados Salvos - SharedPreferences');
+  }
+
+  @override
+  void deleteUser(int userID) async {
+    final internalPref = await _prefs;
+    internalPref.remove('name');
+    internalPref.remove('surname');
   }
 }

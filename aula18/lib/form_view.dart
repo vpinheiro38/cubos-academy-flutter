@@ -1,9 +1,21 @@
-import 'package:aula16/form_controller.dart';
+import 'package:aula16/form_viewmodel.dart';
 import 'package:flutter/material.dart';
 
-class FormView extends StatelessWidget {
+class FormView extends StatefulWidget {
+  @override
+  _FormViewState createState() => _FormViewState();
+}
+
+class _FormViewState extends State<FormView> {
   final _formKey = GlobalKey<FormState>();
-  final _controller = FormController();
+
+  final _viewModel = FormViewModel();
+
+  @override
+  void initState() {
+    _viewModel.loadCurrentUser();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +59,7 @@ class FormView extends StatelessWidget {
                             return null;
                           },
                           onChanged: (text) {
-                            _controller.updateName(text);
+                            _viewModel.updateName(text);
                           },
                         ),
                         TextFormField(
@@ -59,45 +71,67 @@ class FormView extends StatelessWidget {
                               return null;
                             },
                             onChanged: (text) {
-                              _controller.updateSurname(text);
+                              _viewModel.updateSurname(text);
                             }),
                         Container(
                           margin: const EdgeInsets.only(top: 100),
-                          child: ElevatedButton(
-                              onPressed: () {
-                                final isValid =
-                                    _formKey.currentState!.validate();
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              ElevatedButton(
+                                  onPressed: () {
+                                    _viewModel.deleteCurrentUser();
+                                    _viewModel.loadCurrentUser();
+                                  },
+                                  child: Text('Deletar')),
+                              ElevatedButton(
+                                  onPressed: () {
+                                    final isValid =
+                                        _formKey.currentState!.validate();
 
-                                if (isValid) {
-                                  showDialog(
-                                      context: context,
-                                      builder: (context) {
-                                        return AlertDialog(
-                                          title: Text(
-                                            'Olá ${_controller.name} ${_controller.surname}',
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                          actions: [
-                                            TextButton(
-                                              child: Text('Salvar'),
-                                              onPressed: () {
-                                                _controller.saveUser();
-                                              },
-                                            )
-                                          ],
-                                        );
-                                      });
-                                }
-                              },
-                              child: Text('Validar')),
+                                    if (isValid) {
+                                      showDialog(
+                                          context: context,
+                                          builder: (context) {
+                                            return AlertDialog(
+                                              title: Text(
+                                                'Olá ${_viewModel.name} ${_viewModel.surname}',
+                                                style: TextStyle(
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                              actions: [
+                                                TextButton(
+                                                  child: Text('Salvar'),
+                                                  onPressed: () {
+                                                    _viewModel.saveUser();
+                                                    _viewModel
+                                                        .loadCurrentUser();
+                                                  },
+                                                )
+                                              ],
+                                            );
+                                          });
+                                    }
+                                  },
+                                  child: Text('Validar'))
+                            ],
+                          ),
                         ),
                         Container(
                           margin: const EdgeInsets.fromLTRB(0, 50, 0, 50),
-                          child: FutureBuilder<String>(
-                            future: _controller.fullName,
+                          child: StreamBuilder<String>(
+                            stream: _viewModel.streamController.stream,
                             builder: (context, snapshot) {
-                              return Text(snapshot.data ?? '');
+                              if (snapshot.connectionState !=
+                                  ConnectionState.active) {
+                                return CircularProgressIndicator();
+                              }
+
+                              if (snapshot.hasData) {
+                                return Text(snapshot.data ?? '');
+                              }
+                              return CircularProgressIndicator();
                             },
                           ),
                         )

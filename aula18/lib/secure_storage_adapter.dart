@@ -1,4 +1,5 @@
 import 'package:aula16/internal_storage.dart';
+import 'package:aula16/user.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class SecureStorageAdapter extends InternalStorage {
@@ -21,5 +22,12 @@ class SecureStorageAdapter extends InternalStorage {
     await _secureStorage.write(key: 'name', value: name);
     await _secureStorage.write(key: 'surname', value: surname);
     print('Dados Salvos - SecureStorage');
+  }
+
+  @override
+  void deleteUser(int userID) async {
+    await _secureStorage.delete(key: 'name');
+    await _secureStorage.delete(key: 'surname');
+    print('Usuário deletado');
   }
 }
